@@ -1,19 +1,17 @@
 import { createLogger, format, transports } from 'winston';
+import DailyRotateFile = require('winston-daily-rotate-file');
+
 import fs from 'fs';
 import path from  'path';
 
 const env: string = process.env.NODE_ENV || 'development';
 const logDir = 'log';
 
-// Create the log directory if it does not exist
 if (!fs.existsSync(logDir)) {
   fs.mkdirSync(logDir);
 }
 
-const filename = path.join(logDir, 'results.log');
-
-const logger = createLogger({
-  // change level if in dev environment versus production
+const logger = createLogger({  
   level: env === 'production' ? 'info' : 'debug',
   format: format.combine(
     format.label({ label: path.basename(process!.mainModule!.filename) }),
@@ -29,8 +27,10 @@ const logger = createLogger({
         )
       )
     }),
-    new transports.File({
-      filename,
+    new DailyRotateFile({
+      filename:`%DATE%.log`,
+      dirname: logDir,
+      datePattern: 'YYYY-MM-DD',
       format: format.combine(
         format.printf(
           info =>

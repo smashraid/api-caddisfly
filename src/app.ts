@@ -4,6 +4,7 @@ import morgan from 'morgan';
 
 import logger from './utils/logger';
 import testRouter from './routes/test';
+import categoryRouter from './routes/category';
 
 class App {
 
@@ -18,7 +19,8 @@ class App {
     }
 
     setRoutes() : void {
-        this.app.use('/test', testRouter)
+        this.app.use('/test', testRouter);
+        this.app.use('/category', categoryRouter);
     }
 
     private config(): void {
