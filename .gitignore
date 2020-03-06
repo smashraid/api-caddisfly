@@ -63,4 +63,5 @@ typings/
 npm-debug.log
 .DS_Store
 
-
+# Transpiled  destination folder
+dist
